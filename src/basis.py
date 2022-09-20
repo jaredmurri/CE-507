@@ -20,15 +20,6 @@ def evalLegendreBasis1D(degree, variate):
         val=(term1-term2)/term3
     return val
 
-def taylorExpansion(fun,a,order):
-    x=list(fun.atoms(sympy.Symbol))[0]
-    t=0
-    for i in range(0,order+1):
-        df=sympy.diff(fun,x,i)
-        term=(df.subs(x,a)/sympy.factorial(i))*(x-a)**i
-        t+=term
-    return t 
-
 def evaluateMonomialBasis1D(variate,degree, basis_idx):
     if degree<basis_idx:
         raise Exception( "DEGREE_MUST_BE_>=_BASIS_IDX" )

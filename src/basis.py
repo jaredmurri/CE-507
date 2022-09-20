@@ -3,6 +3,7 @@ import unittest
 import math
 import numpy
 import sympy
+import matplotlib
 
 def evalLegendreBasis1D(degree, variate):
     if degree==0:
@@ -28,29 +29,33 @@ def taylorExpansion(fun,a,order):
         t+=term
     return t 
 
-def evaluateMonomialBasis1D(degree,variate):
-    for i in range(0,degree):
-        val=val+variate**i
+def evaluateMonomialBasis1D(variate,degree, basis_idx):
+    if degree<basis_idx:
+        raise Exception( "DEGREE_MUST_BE_>=_BASIS_IDX" )
+    val=variate**basis_idx
     return val    
 
 def evaluateBernsteinBasis1D(variate, degree, basis_idx):
     return val
-    
-def evaluateLAgrangeBasis1D(variate,degree,basis_idx):
+
+def evaluateLagrangeBasis1D(variate,degree,basis_idx):
     return val
 
 
 
 class Test_evaluateMonomialBasis1D( unittest.TestCase ):
     def test_basisAtBounds( self ):
-       self.assertAlmostEqual( first = evaluateMonomialBasis1D( degree = 0, variate = 0 ), second = 1.0, delta = 1e-12 )
+       self.assertAlmostEqual( first = evaluateMonomialBasis1D( degree = 0, variate = 0 ,basis_idx=0), second = 1.0, delta = 1e-12 )
        for p in range( 1, 11 ):
-        self.assertAlmostEqual( first = evaluateMonomialBasis1D( degree = p, variate = 0 ), second = 0.0, delta = 1e-12 )
-        self.assertAlmostEqual( first = evaluateMonomialBasis1D( degree = p, variate = 1 ), second = 1.0, delta = 1e-12 )
-
+        self.assertAlmostEqual( first = evaluateMonomialBasis1D( degree = p, variate = 0,basis_idx=p ), second = 0.0, delta = 1e-12 )
+        self.assertAlmostEqual( first = evaluateMonomialBasis1D( degree = p, variate = 1,basis_idx=p ), second = 1.0, delta = 1e-12 )
+    def test_DegreeLargerthanBasisIndex(self):
+        with self.assertRaises( Exception ) as context:
+            evaluateMonomialBasis1D(degree = 1, variate = 0,basis_idx=2 )
+        self.assertEquals( "DEGREE_MUST_BE_>=_BASIS_IDX", str( context.exception ) )
     def test_basisAtMidpoint( self ):
        for p in range( 0, 11 ):
-        self.assertAlmostEqual( first = evaluateMonomialBasis1D( degree = p, variate = 0.5 ), second = 1 / ( 2**p ), delta = 1e-12 )
+        self.assertAlmostEqual( first = evaluateMonomialBasis1D( degree = p, variate = 0.5, basis_idx=p), second = 1 / ( 2**p ), delta = 1e-12 )
 
 class Test_evalLegendreBasis1D( unittest.TestCase ):
     def test_basisAtBounds( self ):

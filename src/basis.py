@@ -3,7 +3,7 @@ import unittest
 import math
 import numpy
 import sympy
-import matplotlib
+import matplotlib.pyplot as plt
 
 def evalLegendreBasis1D(degree, variate):
     if degree==0:

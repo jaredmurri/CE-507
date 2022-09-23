@@ -17,9 +17,20 @@ def taylorExpansion(fun,a,order):
 
 def plottest():
 
-    x = numpy.linspace(0, 2 * numpy.pi, 200)
-    y = numpy.sin(x)
+    x = numpy.linspace(-1, 1)
+    y = numpy.sin(numpy.pi*x)   
+    plt.plot(x,y)
+    plt.show()
 
-    fig, ax = plt.subplots()
-    ax.plot(x, y)
+def lagrangetry():
+    from scipy.interpolate import lagrange
+
+    f = lagrange(x, y)
+
+    fig = plt.figure(figsize = (10,8))
+    plt.plot(x_new, f(x_new), 'b', x, y, 'ro')
+    plt.title('Lagrange Polynomial')
+    plt.grid()
+    plt.xlabel('x')
+    plt.ylabel('y')
     plt.show()

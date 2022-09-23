@@ -1,8 +1,10 @@
+from platform import node
 from random import vonmisesvariate
 import unittest
 import math
-import numpy
+import numpy as np
 import sympy
+import scipy
 import matplotlib.pyplot as plt
 
 def evalLegendreBasis1D(degree, variate):
@@ -27,9 +29,16 @@ def evaluateMonomialBasis1D(variate,degree, basis_idx):
     return val    
 
 def evaluateBernsteinBasis1D(variate, degree, basis_idx):
+    variate=(variate-(-1))/2
+    val=math.comb(degree,basis_idx)*(variate**basis_idx)*(1-variate)**(degree-basis_idx)
     return val
 
 def evaluateLagrangeBasis1D(variate,degree,basis_idx):
+    nodes=np.linspace(-1,1,degree+1)
+    val=1
+    for j in range(0,degree+1):
+        if j!=basis_idx:
+            val=val*((variate-nodes[j])/(nodes[basis_idx]-nodes[j]))
     return val
 
 
@@ -58,11 +67,11 @@ class Test_evalLegendreBasis1D( unittest.TestCase ):
             self.assertAlmostEqual( first = evalLegendreBasis1D( degree = p, variate = +1 ), second = 1.0, delta = 1e-12 )
 
     def test_constant( self ):
-        for x in numpy.linspace( -1, 1, 100 ):
+        for x in np.linspace( -1, 1, 100 ):
             self.assertAlmostEqual( first = evalLegendreBasis1D( degree = 0, variate = x ), second = 1.0, delta = 1e-12 )
 
     def test_linear( self ):
-        for x in numpy.linspace( -1, 1, 100 ):
+        for x in np.linspace( -1, 1, 100 ):
             self.assertAlmostEqual( first = evalLegendreBasis1D( degree = 1, variate = x ), second = x, delta = 1e-12 )
 
     def test_quadratic_at_roots( self ):

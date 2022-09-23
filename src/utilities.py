@@ -1,8 +1,9 @@
 from random import vonmisesvariate
 import unittest
 import math
-import numpy
+import numpy as np
 import sympy
+import scipy
 import matplotlib.pyplot as plt
 
 
@@ -15,22 +16,12 @@ def taylorExpansion(fun,a,order):
         t+=term
     return t 
 
-def plottest():
-
-    x = numpy.linspace(-1, 1)
-    y = numpy.sin(numpy.pi*x)   
-    plt.plot(x,y)
+def plot_taylor_sin():
+    x = np.linspace(-1, 1)
+    for degree in np.array([0,1,3,5,7]):
+        sin_taylor = scipy.interpolate.approximate_taylor_polynomial(np.sin, 0, degree,1)
+        plt.plot(x, sin_taylor(np.pi*x))
+    plt.plot(x,np.sin(np.pi*x),color="black")
     plt.show()
 
-def lagrangetry():
-    from scipy.interpolate import lagrange
-
-    f = lagrange(x, y)
-
-    fig = plt.figure(figsize = (10,8))
-    plt.plot(x_new, f(x_new), 'b', x, y, 'ro')
-    plt.title('Lagrange Polynomial')
-    plt.grid()
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.show()
+plot_taylor_sin()

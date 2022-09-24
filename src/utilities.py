@@ -16,6 +16,7 @@ def taylorExpansion(fun,a,order):
         t+=term
     return t 
 
+
 def plot_taylor_sin():
     x = np.linspace(-1, 1)
     for degree in np.array([0,1,3,5,7]):
@@ -34,10 +35,10 @@ def plot_taylor_exp():
 
 def plot_taylor_erfc():
     x = np.linspace(-1, 1)
-    for degree in np.array([1,2,3,4]):
-        erfc_taylor = scipy.interpolate.approximate_taylor_polynomial(math.erfc, 0, degree,1)
+    for degree in [1,2,3,4]:
+        erfc_taylor = scipy.interpolate.approximate_taylor_polynomial(scipy.special.erfc, 0, degree,1)
         plt.plot(x, erfc_taylor(x))
-    plt.plot(x,math.erfc(x),color="black")
+    plt.plot(x,scipy.special.erfc(x),color="black")
     plt.show()
 
 

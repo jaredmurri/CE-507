@@ -24,4 +24,32 @@ def plot_taylor_sin():
     plt.plot(x,np.sin(np.pi*x),color="black")
     plt.show()
 
-plot_taylor_sin()
+def plot_taylor_exp():
+    x = np.linspace(-1, 1)
+    for degree in np.array([1,2,3,4]):
+        exp_taylor = scipy.interpolate.approximate_taylor_polynomial(np.exp, 0, degree,1)
+        plt.plot(x, exp_taylor(x))
+    plt.plot(x,np.exp(x),color="black")
+    plt.show()
+
+def plot_taylor_erfc():
+    x = np.linspace(-1, 1)
+    for degree in np.array([1,2,3,4]):
+        erfc_taylor = scipy.interpolate.approximate_taylor_polynomial(math.erfc, 0, degree,1)
+        plt.plot(x, erfc_taylor(x))
+    plt.plot(x,math.erfc(x),color="black")
+    plt.show()
+
+
+def sin_error():
+    # x = np.linspace(-1, 1)
+    error=[]
+    degree_list = np.array([0,1,3,5,7])
+    for degree in degree_list:
+        sin_taylor = scipy.interpolate.approximate_taylor_polynomial(np.sin, 0, degree,1)
+        err_fun = lambda x : abs( sin_taylor(np.pi * x) - np.sin(np.pi*x) )  
+        error.append( scipy.integrate.quad( err_fun, -1, 1 )[0] )
+    plt.plot(degree_list, error, color="black")
+    plt.yscale("log")
+    plt.show()
+   

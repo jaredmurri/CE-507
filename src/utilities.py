@@ -34,8 +34,8 @@ def plot_taylor_exp():
     plt.show()
 
 def plot_taylor_erfc():
-    x = np.linspace(-1, 1)
-    for degree in [1,2,3,4]:
+    x = np.linspace(-2, 2)
+    for degree in [1,3,5,7]:
         erfc_taylor = scipy.interpolate.approximate_taylor_polynomial(scipy.special.erfc, 0, degree,1)
         plt.plot(x, erfc_taylor(x))
     plt.plot(x,scipy.special.erfc(x),color="black")
@@ -54,3 +54,26 @@ def sin_error():
     plt.yscale("log")
     plt.show()
    
+def exp_error():
+    # x = np.linspace(-1, 1)
+    error=[]
+    degree_list = np.array([1,2,3,4])
+    for degree in degree_list:
+        exp_taylor = scipy.interpolate.approximate_taylor_polynomial(np.exp, 0, degree,1)
+        err_fun = lambda x : abs( exp_taylor(x) - np.exp(x) )  
+        error.append( scipy.integrate.quad( err_fun, -1, 1 )[0] )
+    plt.plot(degree_list, error, color="black")
+    plt.yscale("log")
+    plt.show()
+
+def erfc_error():
+    # x = np.linspace(-1, 1)
+    error=[]
+    degree_list = np.array([1,3,5,7])
+    for degree in degree_list:
+        exp_taylor = scipy.interpolate.approximate_taylor_polynomial(scipy.special.erfc, 0, degree,1)
+        err_fun = lambda x : abs( exp_taylor(x) - scipy.special.erfc(x) )  
+        error.append( scipy.integrate.quad( err_fun, -2, 2 )[0] )
+    plt.plot(degree_list, error, color="black")
+    plt.yscale("log")
+    plt.show()

@@ -41,6 +41,12 @@ def plot_taylor_erfc():
     plt.plot(x,scipy.special.erfc(x),color="black")
     plt.show()
 
+def plot_monomial_basis():
+    x = np.linspace(0, 1)
+    for degree in range(0,11):
+        plt.plot(x, x**degree)
+    plt.show()
+
 
 def sin_error():
     # x = np.linspace(-1, 1)
